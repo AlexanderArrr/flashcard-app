@@ -9,17 +9,18 @@ class File_Management():
         self.flashcards_path = self.base_path.joinpath('flashcards').resolve()
 
         if not self.flashcards_path.joinpath('default_card.json').exists():
-            self.__create_default()
+            default_cards_dict = self.__create_default_cards()
+            self.__create_json_from_dict(default_cards_dict)
 
-    def __create_default(self):
-        default_dict = {
-            "cards_name" : "Default",
-            "cards_id" : "default",
-            "cards_amount" : 0,
-            "cards_list" : [],
+    def __create_default_cards(self):
+        default_cards_dict = {
+            "cards_name": "Default", 
+            "cards_id": "default", 
+            "cards_amount": 0, 
+            "cards_list": [0], 
         }
         
-        json_string = self.__create_json_from_dict(default_dict)
+        json_string = self.__create_json_from_dict(default_cards_dict)
 
     def __create_json_from_dict(self, card_dict):
         return json.dumps(card_dict)

@@ -3,8 +3,8 @@ from flashcard import Flashcard
 
 class Flashcards():
     def __init__(self, name):
-        self.cards_name = name
         self.cards_id = name.lower()
+        self.cards_name = name
         self.cards_amount = 0
         self.cards_list = []
 
