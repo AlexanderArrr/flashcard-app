@@ -7,3 +7,5 @@ Time spent on the project:
 1/2 hour - UI sketch
 1 hours - Tk UI started, grids
 2 hours - Sketchpad (Tk Canvas)
+1 hour - Pathing and JSON creation
+1/2 hour - Saving sketchpad lines and ignoring button area

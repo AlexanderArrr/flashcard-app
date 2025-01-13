@@ -1,0 +1,6 @@
+__pycache__/
+/flashcards
+src/__pycache__/file_management.cpython-310.pyc
+src/__pycache__/flashcard.cpython-310.pyc
+src/__pycache__/sketchpad.cpython-310.pyc
+src/__pycache__/windows.cpython-310.pyc

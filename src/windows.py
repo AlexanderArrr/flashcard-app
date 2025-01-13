@@ -14,10 +14,10 @@ class Windows:
         mainframe.columnconfigure(5, pad=10)
 
         # First row
-        selectorvar = StringVar()
+        selectorvar = StringVar(value="Default")
         selector = ttk.Combobox(mainframe, textvariable=selectorvar)
         selector.state(["readonly"])
-        selector['values'] = ('Standard', 'Standard2')
+        selector['values'] = ('Default')
         button_new = ttk.Button(mainframe, text="New")
         button_save = ttk.Button(mainframe, text="Save")
         button_delete = ttk.Button(mainframe, text="Delete")
@@ -50,8 +50,6 @@ class Windows:
         button_clear.grid(column=5, row=4)
         button_previous.grid(column=2, row=6)
         button_next.grid(column=3, row=6)
-
-        
 
         # Bindings
         selector.bind('<<ComboboxSelected>>', None)

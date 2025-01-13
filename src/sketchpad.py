@@ -23,10 +23,18 @@ class Sketchpad(Canvas):
         self.button_green = self.create_rectangle((10, 60, 30, 80), fill="green", tags=('palette', 'palettegreen'))
         self.tag_bind(self.button_green, "<Button-1>", lambda x: self.set_color("green"))
 
+        self.button_areas = [
+            (10, 10, 30, 30),
+            (10, 35, 30, 55),
+            (10, 60, 30, 80)
+        ]
+
         self.set_color('black')
         self.itemconfigure('palette', width=5)
 
     def start_line(self, event):
+        if self.is_over_button(event.x, event.y):
+            return
         self.lastx, self.lasty = event.x, event.y
         self.current_line = self.create_line(self.lastx, self.lasty, event.x, event.y, fill=self.color, width=2)
 
@@ -37,7 +45,8 @@ class Sketchpad(Canvas):
 
     def end_line(self, event):
         if self.current_line:
-            self.lines.append(self.current_line)
+            coords = self.coords(self.current_line)
+            self.lines.append({'coords': coords, 'color': self.color})
         self.current_line = None
         self.lastx, self.lasty = None, None
 
@@ -54,3 +63,9 @@ class Sketchpad(Canvas):
         self.itemconfigure('palette', outline='white')
         self.addtag('paletteSelected', 'withtag', 'palette%s' % self.color)
         self.itemconfigure('paletteSelected', outline='#999999')
+
+    def is_over_button(self, x, y):
+        for left, top, right, bottom in self.button_areas:
+            if left <= x <= right and top <= y <= bottom:
+                return True
+        return False
