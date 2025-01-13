@@ -22,11 +22,14 @@ class Sketchpad(Canvas):
         self.tag_bind(self.button_red, "<Button-1>", lambda x: self.set_color("red"))
         self.button_green = self.create_rectangle((10, 60, 30, 80), fill="green", tags=('palette', 'palettegreen'))
         self.tag_bind(self.button_green, "<Button-1>", lambda x: self.set_color("green"))
+        self.button_blue = self.create_rectangle((10, 85, 30, 105), fill="blue", tags=('palette', 'paletteblue'))
+        self.tag_bind(self.button_blue, "<Button-1>", lambda x: self.set_color("blue"))
 
         self.button_areas = [
             (10, 10, 30, 30),
             (10, 35, 30, 55),
-            (10, 60, 30, 80)
+            (10, 60, 30, 80),
+            (10, 85, 30, 105)
         ]
 
         self.set_color('black')
@@ -53,9 +56,12 @@ class Sketchpad(Canvas):
     def remove_line(self, event):
         items = self.find_withtag("current")
         for item in items:
-            if item in self.lines:
-                self.delete(item)
-                self.lines.remove(item)
+            coords = self.coords(item)
+            for line in self.lines:
+                if line["coords"] == coords:
+                    self.lines.remove(line)
+                    break
+            self.delete(item)
     
     def set_color(self, newcolor):
         self.color = newcolor
