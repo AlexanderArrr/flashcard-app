@@ -46,8 +46,9 @@ class Flashcards():
     
     def fc_objects_to_cards_list(self, fc_objects_list):
         new_list = []
-        for card in fc_objects_list:
-            new_list.append(card.get_fc())
+        if fc_objects_list is not None:
+            for card in fc_objects_list:
+                new_list.append(card.get_fc())
         return new_list
 
     def get_fc_by_index(self, index):

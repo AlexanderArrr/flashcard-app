@@ -53,14 +53,26 @@ class File_Management():
             return flashcards
         else:
             print("The specified path does not exist!")
+    
+    def create_new_flashcards(self, name):
+        fc_list = []
+        new_fcs = fcs(name, fc_list)
+        json_content = self.__create_json_from_dict(new_fcs.get_fcs())
+        self.create_json_file(self.flashcards_path.joinpath(name.lower() + '.json'), json_content)
+
+    def check_existing_json_file(self, name):
+        path_to_check = self.flashcards_path.joinpath(name.lower() + '.json')
+        if path_to_check.exists():
+            return False
+        return True
 
     def __create_default_cards(self):
         json_dict = {
             "index": 0,
             "front": "A default text showing the front.",
             "back": "A default text showing the back.",
-            "front_has_lines": False,
-            "front_lines": None,
+            "front_has_lines": True,
+            "front_lines": [{"coords": [586.0, 43.0, 586.0, 43.0, 586.0, 44.0, 587.0, 50.0, 588.0, 58.0, 590.0, 68.0, 591.0, 78.0, 593.0, 90.0, 594.0, 99.0, 596.0, 108.0, 597.0, 117.0, 597.0, 120.0], "color": "black", "width": 2}, {"coords": [631.0, 40.0, 631.0, 40.0, 631.0, 41.0, 631.0, 43.0, 631.0, 52.0, 632.0, 62.0, 633.0, 72.0, 634.0, 82.0, 635.0, 90.0, 636.0, 96.0, 637.0, 102.0, 637.0, 107.0, 638.0, 111.0, 638.0, 112.0], "color": "black", "width": 2}, {"coords": [562.0, 83.0, 562.0, 83.0, 567.0, 84.0, 572.0, 84.0, 582.0, 84.0, 596.0, 84.0, 612.0, 84.0, 628.0, 84.0, 645.0, 84.0, 661.0, 84.0, 676.0, 84.0, 686.0, 84.0, 688.0, 84.0], "color": "black", "width": 2}],
             "back_has_lines": False,
             "back_lines": None
         }
