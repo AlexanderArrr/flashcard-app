@@ -99,7 +99,12 @@ class Sketchpad(Canvas):
                 del coords[0:2]
                 if last_x is not None and last_y is not None:
                     self.current_line = self.create_line(last_x, last_y, next_x, next_y, fill=line['color'], width=line['width'])
-                    self.lines.append({'id': self.current_line,'coords': self.coords(self.current_line), 'color': line['color'], 'width': line['width']})
+                    self.lines.append({
+                        'id': self.current_line,
+                        'coords': self.coords(self.current_line),
+                        'color': line['color'],
+                        'width': line['width']
+                        })
                 last_x = next_x
                 last_y = next_y
             

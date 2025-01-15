@@ -10,4 +10,5 @@ Time spent on the project:
 1 hour - Pathing and JSON creation
 1/2 hour - Saving sketchpad lines and ignoring button area
 4 hours - More JSON handling, Combobox
- 1 1/2 hours - Removing lines, loading lines from saved projects
+3 hours - Removing lines and text, loading lines and text from saved projects, New button functionality
+1 hour - Front button, back button, preparing saving
