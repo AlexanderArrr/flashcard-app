@@ -38,3 +38,15 @@ class Flashcard():
                 return self.back_lines
             case _:
                 return None
+            
+    def update_text_and_lines(self, text, lines, front_is_active):
+        if front_is_active == True:
+            self.front = text
+            if lines:
+                self.front_lines = lines
+                self.front_has_lines = True
+        else:
+            self.back = text
+            if lines:
+                self.back_lines = lines
+                self.back_has_lines = True

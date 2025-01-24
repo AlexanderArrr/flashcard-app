@@ -31,6 +31,15 @@ class File_Management():
             dict_json = json.load(f)
             f.close()
             return dict_json
+        
+    def save_json_file(self, fcs_name, fcs_dict):
+        path = self.flashcards_path.joinpath(fcs_name.lower() + ".json")
+        if not path.exists():
+            self.create_json_file(path, self.__create_json_from_dict(fcs_dict))
+            return
+        f = open(path, 'w')
+        f.write(self.__create_json_from_dict(fcs_dict))
+        f.close()
 
     def list_flashcards_folder(self):
         flashcards_list = []

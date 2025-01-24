@@ -7,6 +7,7 @@ from sketchpad import Sketchpad
 from file_management import File_Management
 from flashcards import Flashcards
 from flashcard import Flashcard
+from copy import deepcopy
 
 class Windows:
 
@@ -59,8 +60,8 @@ class Windows:
         self.width_selector.state(["readonly"])
 
         # Seventh row
-        self.cardselectorvar = StringVar(value=1)
-        self.cardselector = ttk.Combobox(self.mainframe, textvariable=self.cardselectorvar)
+        self.card_selectorvar = StringVar(value=1)
+        self.cardselector = ttk.Combobox(self.mainframe, textvariable=self.card_selectorvar)
         self.cardselector.state(["readonly"])
         self.cardselector['values'] = [1]
         self.button_previous = ttk.Button(self.mainframe, text="Previous", command=self.btn_previous)
@@ -88,6 +89,7 @@ class Windows:
         # Bindings
         self.selector.bind('<<ComboboxSelected>>', lambda event: self.selection_change(self.selectorvar))
         self.width_selector.bind('<<ComboboxSelected>>', lambda event: self.width_selection_change(self.width_selectorvar))
+        self.cardselector.bind('<<ComboboxSelected>>', lambda event: self.card_selection_change(self.card_selectorvar))
         
         self.root.mainloop()
 
@@ -96,6 +98,7 @@ class Windows:
         self.current_index = 0
         self.fc_list = []
         self.current_fc = self.fcs.get_fc_by_index(self.current_index)
+        print(self.current_fc)
         if self.current_fc is not None:
             self.fc_list.append(self.current_fc)
 
@@ -130,7 +133,10 @@ class Windows:
             elif direction == 'back':
                 if fc.back_has_lines:
                     self.sketch.load_lines(fc.get_fc_element("back_lines"))
-    
+
+    def card_selection_change(self,selection):
+        pass
+
     def btn_new(self):
         name_dialog = Toplevel(self.mainframe)
         name_dialog.title("New Flashcards Collection")
@@ -160,7 +166,28 @@ class Windows:
         name_dialog.bind("<Return>", name_confirmation)
 
     def btn_save(self):
-        pass
+        if self.current_fc is None:
+            if self.front_is_active:
+                self.current_fc = Flashcard(
+                    self.current_index,
+                    self.text.get('1.0', 'end'),
+                    None,
+                    self.check_if_lines(),
+                    self.sketch.lines,
+                    False,
+                    None
+                    )
+                self.fc_list.append(self.current_fc)
+        self.current_fc.update_text_and_lines(self.text.get('1.0', 'end'), self.sketch.lines, self.front_is_active)
+        self.fc_list[self.current_index] = self.current_fc
+        self.fcs.cards_list = self.fc_list
+        self.fcs.update_amount()
+        self.fm.save_json_file(self.selectorvar.get(), self.fcs.get_fcs())
+
+    def check_if_lines(self):
+        if self.sketch.lines:
+            return True
+        return False
 
     def btn_delete(self):
         pass

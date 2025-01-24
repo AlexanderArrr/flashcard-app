@@ -56,5 +56,8 @@ class Flashcards():
             for card in self.cards_list:
                 if card.index == index:
                     return card
+    
+    def update_amount(self):
+        self.cards_amount = len(self.cards_list)
 
 

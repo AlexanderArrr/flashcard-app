@@ -12,3 +12,4 @@ Time spent on the project:
 4 hours - More JSON handling, Combobox
 3 hours - Removing lines and text, loading lines and text from saved projects, New button functionality
 1 hour - Front button, back button, preparing saving
+1 hour - Save button
