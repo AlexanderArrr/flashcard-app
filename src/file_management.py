@@ -72,8 +72,14 @@ class File_Management():
     def check_existing_json_file(self, name):
         path_to_check = self.flashcards_path.joinpath(name.lower() + '.json')
         if path_to_check.exists():
-            return False
-        return True
+            return True
+        return False
+    
+    def delete_flashcards(self, name):
+        if self.check_existing_json_file(name):
+            path = self.flashcards_path.joinpath(name.lower() + '.json')
+            path.unlink()
+        return
 
     def __create_default_cards(self):
         json_dict = {

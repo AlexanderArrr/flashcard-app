@@ -93,50 +93,6 @@ class Windows:
         
         self.root.mainloop()
 
-    def selection_change(self, selection):
-        self.fcs = self.fm.get_flashcards(selection.get())
-        self.current_index = 0
-        self.fc_list = []
-        self.current_fc = self.fcs.get_fc_by_index(self.current_index)
-        print(self.current_fc)
-        if self.current_fc is not None:
-            self.fc_list.append(self.current_fc)
-
-        self.replace_text(self.fcs, self.current_index, 'front')
-        self.replace_lines(self.fcs, self.current_index, 'front')
-
-        self.button_save.state(['!disabled'])
-        self.button_delete.state(['!disabled'])
-        self.button_randomize.state(['!disabled'])
-        self.button_front.state(["disabled"])
-        self.button_back.state(["!disabled"])
-        self.button_clear.state(['!disabled'])
-        self.button_previous.state(['disabled'])
-        self.button_next.state(['!disabled'])
-        self.selector['values'] = self.fm.list_flashcards_folder()
-        self.selector.select_clear()
-
-    def replace_text(self, flashcards, index, direction):
-        # direction = 'front' | 'back'
-        self.text.delete('1.0', 'end')
-        fc = flashcards.get_fc_by_index(index)
-        if fc:
-            self.text.insert('1.0', fc.get_fc_element(direction), 'center')
-
-    def replace_lines(self, flashcards, index, direction):
-        self.sketch.remove_all_lines()
-        fc = flashcards.get_fc_by_index(index)
-        if fc:
-            if direction == 'front':
-                if fc.front_has_lines:
-                    self.sketch.load_lines(fc.get_fc_element("front_lines"))
-            elif direction == 'back':
-                if fc.back_has_lines:
-                    self.sketch.load_lines(fc.get_fc_element("back_lines"))
-
-    def card_selection_change(self,selection):
-        pass
-
     def btn_new(self):
         name_dialog = Toplevel(self.mainframe)
         name_dialog.title("New Flashcards Collection")
@@ -154,7 +110,7 @@ class Windows:
         def name_confirmation(event=None):
             entered_name = name_var.get()
             if entered_name.strip():
-                if self.fm.check_existing_json_file(entered_name):
+                if not self.fm.check_existing_json_file(entered_name):
                     self.fm.create_new_flashcards(entered_name.strip())
                     name_dialog.destroy()
                     self.selectorvar.set(value=entered_name)
@@ -184,13 +140,9 @@ class Windows:
         self.fcs.update_amount()
         self.fm.save_json_file(self.selectorvar.get(), self.fcs.get_fcs())
 
-    def check_if_lines(self):
-        if self.sketch.lines:
-            return True
-        return False
-
     def btn_delete(self):
-        pass
+        self.fm.delete_flashcards(self.selectorvar.get())
+        self.reset_gui()
 
     def btn_randomize(self):
         pass
@@ -211,10 +163,6 @@ class Windows:
         self.button_front.state(['!disabled'])
         self.button_back.state(['disabled'])
 
-    def width_selection_change(self, selection):
-        self.sketch.sketch_width = selection.get()
-        self.width_selector.select_clear()
-
     def btn_clear(self):
         pass
 
@@ -224,3 +172,73 @@ class Windows:
     def btn_next(self):
         pass
 
+    def selection_change(self, selection):
+        self.fcs = self.fm.get_flashcards(selection.get())
+        self.current_index = 0
+        self.fc_list = []
+        self.current_fc = self.fcs.get_fc_by_index(self.current_index)
+        if self.current_fc is not None:
+            self.fc_list.append(self.current_fc)
+
+        self.replace_text(self.fcs, self.current_index, 'front')
+        self.replace_lines(self.fcs, self.current_index, 'front')
+
+        self.button_save.state(['!disabled'])
+        self.button_delete.state(['!disabled'])
+        self.button_randomize.state(['!disabled'])
+        self.button_front.state(["disabled"])
+        self.button_back.state(["!disabled"])
+        self.button_clear.state(['!disabled'])
+        self.button_previous.state(['disabled'])
+        self.button_next.state(['!disabled'])
+        self.selector['values'] = self.fm.list_flashcards_folder()
+        self.selector.select_clear()
+
+    def card_selection_change(self,selection):
+        pass
+
+    def width_selection_change(self, selection):
+        self.sketch.sketch_width = selection.get()
+        self.width_selector.select_clear()
+
+    def replace_text(self, flashcards, index, direction):
+        # direction = 'front' | 'back'
+        self.text.delete('1.0', 'end')
+        fc = flashcards.get_fc_by_index(index)
+        if fc:
+            self.text.insert('1.0', fc.get_fc_element(direction), 'center')
+
+    def replace_lines(self, flashcards, index, direction):
+        self.sketch.remove_all_lines()
+        fc = flashcards.get_fc_by_index(index)
+        if fc:
+            if direction == 'front':
+                if fc.front_has_lines:
+                    self.sketch.load_lines(fc.get_fc_element("front_lines"))
+            elif direction == 'back':
+                if fc.back_has_lines:
+                    self.sketch.load_lines(fc.get_fc_element("back_lines"))
+
+    def check_if_lines(self):
+        if self.sketch.lines:
+            return True
+        return False
+    
+    def reset_gui(self):
+        self.selectorvar.set('')
+        self.selector['values'] = self.fm.list_flashcards_folder()
+        self.selector.select_clear()
+        self.text.delete('1.0', 'end')
+        self.sketch.remove_all_lines()
+
+        self.selector.state(["readonly"])
+        self.button_save.state(['disabled'])
+        self.button_delete.state(['disabled'])
+        self.button_randomize.state(['disabled'])
+        self.button_front.state(["disabled"])
+        self.button_back.state(["disabled"])
+        self.button_clear.state(['disabled'])
+        self.cardselector.state(["readonly"])
+        self.cardselector['values'] = [1]
+        self.button_previous.state(['disabled'])
+        self.button_next.state(['disabled'])
