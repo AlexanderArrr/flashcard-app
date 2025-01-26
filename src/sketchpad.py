@@ -88,7 +88,7 @@ class Sketchpad(Canvas):
     def load_lines(self, lines_list):
         self.lines = []
         for line in lines_list:
-            coords = line['coords']
+            coords = copy.deepcopy(line['coords'])
             last_x = None
             last_y = None
             next_x = None

@@ -1,13 +1,22 @@
 import json
 from pathlib import Path
+import sys
 from flashcards import Flashcards as fcs
 from flashcard import Flashcard as fc
 
 class File_Management():
     def __init__(self):
-        self.base_path = Path(__file__).parent.parent.resolve()
+        if getattr(sys, 'frozen', False):  # Check if running as a PyInstaller bundle
+            self.base_path = Path(sys.executable).parent.resolve()
+        else:
+            # Normal script execution
+            self.base_path = Path(__file__).parent.parent.resolve()
+
         self.flashcards_path = self.base_path.joinpath('flashcards').resolve()
         self.default_flashcard_path = self.flashcards_path.joinpath('default.json')
+
+        # Ensure the folder exists
+        self.flashcards_path.mkdir(parents=True, exist_ok=True)
             
     def create_flashcards_folder(self):
         if not self.flashcards_path.exists():

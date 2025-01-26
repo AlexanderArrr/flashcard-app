@@ -13,3 +13,12 @@ Time spent on the project:
 3 hours - Removing lines and text, loading lines and text from saved projects, New button functionality
 1 hour - Front button, back button, preparing saving
 1 hour - Save button
+1/2 hour - Delete button, changed order of functions in windows.py
+3 hours - Clear button, Next Button, Card selection
+1 hour - Rest of buttons, functionally complete
+
+Fixes / Changes:
+- Random NOT to the same you are already on
+- Creating New FCS defaults to back
+- Cardselector empty after New
+- If cardselector = 1, disable Previous

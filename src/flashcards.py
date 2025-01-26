@@ -7,6 +7,9 @@ class Flashcards():
         self.cards_amount = len(cards_list)
         self.cards_list = self.cards_list_to_fc_objects(cards_list)
 
+    def __repr__(self):
+        return f"ID: {self.cards_id}\nName: {self.cards_name}\nAmount: {self.cards_amount}\nCards List: {self.cards_list}"
+
     def get_fcs(self):
         cards_list = self.fc_objects_to_cards_list(self.cards_list)
         fcs_dict = {
@@ -60,4 +63,8 @@ class Flashcards():
     def update_amount(self):
         self.cards_amount = len(self.cards_list)
 
-
+    def get_amount_list(self):
+        amount_list = []
+        for number in range(1, self.cards_amount + 1):
+            amount_list.append(number)
+        return amount_list

@@ -8,6 +8,9 @@ class Flashcard():
         self.back_has_lines = back_has_lines
         self.back_lines = back_lines
 
+    def __repr__(self):
+        return f"Index: {self.index}\nFront: {self.front}\nBack: {self.back}\nFront lines: {self.front_lines}\nBack Lines: {self.back_lines}"
+
     def get_fc(self):
         fc_dict = {
             "index": self.index,
