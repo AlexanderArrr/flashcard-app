@@ -158,9 +158,14 @@ class Windows:
     def btn_random(self):
         randomized_list = []
         for element in self.card_selector['values']:
-            randomized_list.append(element)
+            if int(element) != self.card_selectorvar.get():
+                randomized_list.append(int(element))
         choice = random.choice(randomized_list)
+        print(randomized_list)
+        print(f"Choice {choice}")
+        print(f"Selectorvar before: {self.card_selectorvar.get()}")
         self.card_selectorvar.set(choice)
+        print(f"Selectorvar after: {self.card_selectorvar.get()}")
         self.card_selection_change(self.card_selectorvar)
 
 
@@ -190,8 +195,6 @@ class Windows:
             self.current_index = previous_selection - 1
             self.card_selectorvar.set(previous_selection)
             self.card_selection_change(self.card_selectorvar)
-        if self.card_selectorvar.get() == 1:
-            self.button_previous.state(['disabled'])
 
     def btn_next(self):
         next_selection = self.card_selectorvar.get() + 1
@@ -222,6 +225,8 @@ class Windows:
         self.button_next.state(['!disabled'])
 
         self.card_selector['values'] = self.fcs.get_amount_list()
+        if not self.card_selector['values']:
+            self.card_selector['values'] = [1]
         self.card_selectorvar.set(1)
         self.selector['values'] = self.fm.list_flashcards_folder()
         self.selector.select_clear()
@@ -242,9 +247,13 @@ class Windows:
         self.button_back.state(['!disabled'])
         
         self.card_selector['values'] = self.fcs.get_amount_list()
+        if not self.card_selector['values']:
+            self.card_selector['values'] = [1]
         self.card_selector.select_clear()
         if self.card_selectorvar.get() > 1:
             self.button_previous.state(['!disabled'])
+        elif self.card_selectorvar.get() == 1:
+            self.button_previous.state(['disabled'])
 
     def width_selection_change(self, selection):
         self.sketch.sketch_width = selection.get()

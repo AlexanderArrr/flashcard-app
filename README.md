@@ -18,7 +18,7 @@ Time spent on the project:
 1 hour - Rest of buttons, functionally complete
 
 Fixes / Changes:
-- Random NOT to the same you are already on
-- Creating New FCS defaults to back
-- Cardselector empty after New
-- If cardselector = 1, disable Previous
+- Random button not choosing the same flashcard you are already on
+- Using New not defaulting the UI to the Back of the Flashcard
+- Flashcard-Selector not empty after using New
+- Disabling Previous button if the Flashcard-Selector is on 1
