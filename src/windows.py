@@ -156,6 +156,7 @@ class Windows:
         self.reset_gui()
 
     def btn_random(self):
+        self.btn_save()
         randomized_list = []
         for element in self.card_selector['values']:
             if int(element) != self.card_selectorvar.get():
@@ -166,10 +167,11 @@ class Windows:
         print(f"Selectorvar before: {self.card_selectorvar.get()}")
         self.card_selectorvar.set(choice)
         print(f"Selectorvar after: {self.card_selectorvar.get()}")
-        self.card_selection_change(self.card_selectorvar)
+        self.card_selection_change(self.card_selectorvar, True)
 
 
     def btn_front(self):
+        self.btn_save()
         flashcards = self.fm.get_flashcards(self.selectorvar.get())
         self.replace_text(flashcards, self.current_index, 'front')
         self.replace_lines(flashcards, self.current_index, 'front')
@@ -178,6 +180,7 @@ class Windows:
         self.button_back.state(['!disabled'])
 
     def btn_back(self):
+        self.btn_save()
         flashcards = self.fm.get_flashcards(self.selectorvar.get())
         self.replace_text(flashcards, self.current_index, 'back')
         self.replace_lines(flashcards, self.current_index, 'back')
@@ -190,13 +193,15 @@ class Windows:
         self.sketch.remove_all_lines()
 
     def btn_previous(self):
+        self.btn_save()
         previous_selection = self.card_selectorvar.get() - 1
         if previous_selection >= 1:
             self.current_index = previous_selection - 1
             self.card_selectorvar.set(previous_selection)
-            self.card_selection_change(self.card_selectorvar)
+            self.card_selection_change(self.card_selectorvar, True)
 
     def btn_next(self):
+        self.btn_save()
         next_selection = self.card_selectorvar.get() + 1
         self.current_index = next_selection - 1
         if next_selection > self.fcs.cards_amount:
@@ -204,7 +209,7 @@ class Windows:
             self.fcs.cards_list.append(self.current_fc)
             self.fcs.update_amount()
         self.card_selectorvar.set(self.current_index + 1)
-        self.card_selection_change(self.card_selectorvar)
+        self.card_selection_change(self.card_selectorvar, True)
 
     def selection_change(self, selection):
         self.fcs = self.fm.get_flashcards(selection.get())
@@ -231,7 +236,9 @@ class Windows:
         self.selector['values'] = self.fm.list_flashcards_folder()
         self.selector.select_clear()
 
-    def card_selection_change(self, selection):
+    def card_selection_change(self, selection, already_saved=False):
+        if already_saved is False:
+            self.btn_save()
         self.current_index = selection.get() - 1
         self.current_fc = self.fcs.get_fc_by_index(self.current_index)
 

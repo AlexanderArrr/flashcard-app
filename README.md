@@ -22,3 +22,4 @@ Fixes / Changes:
 - Using New not defaulting the UI to the Back of the Flashcard
 - Flashcard-Selector not empty after using New
 - Disabling Previous button if the Flashcard-Selector is on 1
+- Automatically saving when pressing Front/Back, Previous/Next or Random
